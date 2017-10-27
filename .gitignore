@@ -1,3 +1,4 @@
 
 .idea/
-operativa.iml
+*.iml
+node_modules/
