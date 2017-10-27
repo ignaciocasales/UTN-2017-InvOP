@@ -1,0 +1,30 @@
+{
+  "name": "operativa",
+  "version": "0.0.1",
+  "description": "Investigacion Operativa Teoria de Decisiones",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ignaciocasales/UTN-2017-InvOP.git"
+  },
+  "keywords": [
+    "Investigacion",
+    "Operativa",
+    "Teoria",
+    "Decisiones",
+    "2017",
+    "UTN",
+    "Universidad",
+    "Tecnologica",
+    "Nacional"
+  ],
+  "author": "Ignacio Casales , Santiago Blanc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ignaciocasales/UTN-2017-InvOP/issues"
+  },
+  "homepage": "https://github.com/ignaciocasales/UTN-2017-InvOP#readme"
+}
