@@ -2,31 +2,23 @@
  * Custom css styles.
   -----------------------------------------------------------------*/
 
-
 .io-shadow {
-    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.75);
 }
 
 .isResult {
     background-color: #B3E5FC;
-    border-color: #40C4FF;
 }
-
 
 /*-----------------------------------------------------------------
  * Input css styles.
   -----------------------------------------------------------------*/
 
-
 input[type=text],
 input[type=number] {
     background: none;
-    font-size: 18px;
-    padding: 10px 10px 10px 5px;
-    display: block;
-    width: 75%;
     border: none;
     border-radius: 0;
 }
@@ -39,9 +31,8 @@ input[type=text]:focus {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    margin: 0;
 }
-
 
 /*-----------------------------------------------------------------
  * Table css styles.
@@ -57,9 +48,8 @@ table {
 }
 
 table tr {
-    background: #f8f8f8;
     border: 1px solid #ddd;
-    padding: .35em;
+    padding: 0;
 }
 
 table th,
@@ -68,11 +58,7 @@ table td {
     text-align: center;
 }
 
-table th {
-    /*font-size: .85em;
-    letter-spacing: .1em;
-    text-transform: uppercase;*/
-}
+table th { }
 
 @media screen and (max-width: 600px) {
     table {
@@ -95,6 +81,7 @@ table th {
     }
 
     table tr {
+        background-color: whitesmoke;
         border-bottom: 3px solid #ddd;
         display: block;
         margin-bottom: .625em;
@@ -108,10 +95,6 @@ table th {
     }
 
     table td:before {
-        /*
-        * aria-label has no advantage, it won't be read inside a table
-        content: attr(aria-label);
-        */
         content: attr(data-label);
         float: left;
         font-weight: bold;
@@ -126,4 +109,3 @@ table th {
 th, td {
     border-left: 1px black;
 }
-

@@ -31,100 +31,116 @@
             <div class="columns">
                 <div class="column is-12">
                     <hr>
-                    <b-field grouped group-multiline>
+
+                    <div class="columns">
+                        <div class="column is-6">
+                            <b-field grouped group-multiline>
 
 
-                        <!-- Add consequence button -->
-                        <div class="control is-flex">
-                            <a class="button" @click.prevent="addConsequence">
+                                <!-- Add consequence button -->
+                                <div class="control is-flex">
+                                    <a class="button" @click.prevent="addConsequence">
                                     <span class="icon is-primary">
                                       <i class="fa fa-plus"></i>
                                     </span>
-                                <span>Consecuencia</span>
-                            </a>
-                        </div>
-                        <!-- /Add consequence button -->
+                                        <span>Consecuencia</span>
+                                    </a>
+                                </div>
+                                <!-- /Add consequence button -->
 
 
-                        <!-- Add alternative button -->
-                        <div class="control is-flex">
-                            <a class="button" @click.prevent="addAlternative">
+                                <!-- Add alternative button -->
+                                <div class="control is-flex">
+                                    <a class="button" @click.prevent="addAlternative">
                                     <span class="icon is-primary">
                                       <i class="fa fa-plus"></i>
                                     </span>
-                                <span>Alternativa</span>
-                            </a>
+                                        <span>Alternativa</span>
+                                    </a>
+                                </div>
+                                <!-- /Add alternative button -->
+
+
+                                <!-- Switch between cost & gain -->
+                                <div class="control is-flex">
+                                    <b-switch
+                                            v-model="switchCostGain"
+                                            true-value="Costo"
+                                            false-value="Ganancia"
+                                    >
+                                        {{ switchCostGain }}
+                                    </b-switch>
+                                </div>
+                                <!-- /Switch between cost & gain -->
+
+
+                            </b-field>
+
+
+                            <!-- Radio buttons to select decision criteria. -->
+                            <b-field grouped group-multiline>
+                                <div class="block">
+
+                                    <b-radio
+                                            v-model="criteria"
+                                            native-value="optimist"
+                                    >
+                                        Optimista
+                                    </b-radio>
+
+                                    <b-radio v-model="criteria"
+                                             native-value="pesimist">
+                                        Pesimista
+                                    </b-radio>
+
+                                    <b-radio v-model="criteria"
+                                             native-value="savage">
+                                        Savage
+                                    </b-radio>
+
+                                    <b-radio
+                                            v-model="criteria"
+                                            native-value="laplace"
+                                    >
+                                        Laplace
+                                    </b-radio>
+
+                                    <b-radio
+                                            v-model="criteria"
+                                            native-value="hurwicz"
+                                    >
+                                        Hurwicz
+                                    </b-radio>
+                                </div>
+                            </b-field>
+                            <!-- /Radio buttons to select decision criteria. -->
+
+
                         </div>
-                        <!-- /Add alternative button -->
+                        <div class="column is-6">
 
 
-                        <!-- Switch between cost & gain -->
-                        <div class="control is-flex">
-                            <b-switch
-                                    v-model="switchCostGain"
-                                    true-value="Costo"
-                                    false-value="Ganancia"
+                            <!-- Lambda input -->
+                            <b-field
+                                    grouped
+                                    v-if="criteria === 'hurwicz'"
+                                    type="number"
+                                    label="Lambda:"
                             >
-                                {{ switchCostGain }}
-                            </b-switch>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <input
+                                        type="number"
+                                        v-model="hurwiczValue"
+                                        :value="hurwiczValue"
+                                >
+                            </b-field>
+                            <!-- /Lambda input -->
+
+
                         </div>
-                        <!-- /Switch between cost & gain -->
-
-
-                    </b-field>
-
-
-                    <!-- Radio buttons to select decision criteria. -->
-                    <b-field grouped group-multiline>
-                        <div class="block">
-
-                            <b-radio
-                                    v-model="criteria"
-                                    native-value="optimist"
-                            >
-                                Optimista
-                            </b-radio>
-
-                            <b-radio v-model="criteria"
-                                     native-value="pesimist">
-                                Pesimista
-                            </b-radio>
-
-                            <b-radio v-model="criteria"
-                                     native-value="savage">
-                                Savage
-                            </b-radio>
-
-                            <b-radio
-                                    v-model="criteria"
-                                    native-value="laplace"
-                            >
-                                Laplace
-                            </b-radio>
-
-                            <b-radio
-                                    v-model="criteria"
-                                    native-value="hurwicz"
-                            >
-                                Hurwicz
-                            </b-radio>
-                        </div>
-                    </b-field>
-                    <!-- /Radio buttons to select decision criteria. -->
-
-
-                    <!-- Lambda input -->
-                    <b-field
-                            v-if="criteria === 'hurwicz'"
-                            type="number"
-                            label="Lambda"
-                    >
-                        <b-input
-                                :value="hurwiczValue"
-                        >
-                        </b-input>
-                    </b-field>
-                    <!-- /Lambda input -->
+                    </div>
 
 
                     <hr>
@@ -136,55 +152,55 @@
 
                         <!-- Table Header -->
                         <thead>
-                        <tr>
-                            <th></th>
-                            <th v-for="(consequence, index) in consequences">
-                                <input type="text" placeholder="consecuencia">
-                            </th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th></th>
+                                <th v-for="(consequence, index) in consequences">
+                                    <input type="text" placeholder="Consecuencia">
+                                    <b-tooltip
+                                            label="Eliminar consecuencia"
+                                            position="is-top"
+                                            type="is-danger"
+                                            animated
+                                    >
+                                        <a @click.prevent="deleteConsequence(consequence, index)">
+                                            <span class="icon has-text-dark">
+                                                <i class="fa fa-trash-o"></i>
+                                            </span>
+                                        </a>
+                                    </b-tooltip>
+                                </th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <!-- /Table Header -->
 
 
                         <!-- Table Body -->
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td v-for="(consequence, index) in consequences">
-                                    <b-tooltip label="Eliminar consecuencia"
-                                               position="is-right"
-                                               type="is-danger"
-                                               animated>
-                                        <a @click.prevent="deleteConsequence(consequence, index)">
-                                            <span class="icon has-text-danger">
-                                                <i class="fa fa-trash-o"></i>
-                                            </span>
-                                        </a>
-                                    </b-tooltip>
-                                </td>
-                                <td></td>
-                            </tr>
                             <tr v-for="(alternativeArray, index) in alternatives"
                                 :class="answer == index ? 'isResult' : ''">
                                 <td>
-                                    <input type="text" placeholder="alternativa">
+                                    <input type="text" placeholder="Alternativa">
                                 </td>
                                 <td v-for="(alternative, index) in alternativeArray">
-                                    <input type="number"
-                                           :placeholder="alternative[Object.keys(alternative)[0]]"
-                                           v-model="alternative[Object.keys(alternative)[0]]"
-                                           @change="changedAlternatives">
+                                    <input
+                                            type="number"
+                                            placeholder="Valor..."
+                                            v-model="alternative[Object.keys(alternative)[0]]"
+                                            @change="changedAlternatives"
+                                    >
                                 </td>
                                 <td>
-                                    <b-tooltip label="Eliminar alternativa"
-                                               position="is-top"
-                                               type="is-danger"
-                                               animated>
+                                    <b-tooltip
+                                            label="Eliminar alternativa"
+                                            position="is-top"
+                                            type="is-danger"
+                                            animated
+                                    >
                                         <a @click.prevent="deleteAlternative(index)">
-                                            <span class="icon has-text-danger">
-                                                <i class="fa fa-trash-o"></i>
-                                            </span>
+                                                <span class="icon has-text-dark">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </span>
                                         </a>
                                     </b-tooltip>
                                 </td>
