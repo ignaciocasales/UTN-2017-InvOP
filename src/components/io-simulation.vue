@@ -13,7 +13,7 @@
                 </nav>
             </div>
         </div>
-        <div class="container">
+        <!--<div class="container">
             <section class="hero">
                 <div class="hero-body">
                     <div class="container">
@@ -26,12 +26,15 @@
                     </div>
                 </div>
             </section>
-        </div>
+        </div>-->
         <div class="container is-fluid" style="margin: 10px; padding: 25px">
             <div class="columns">
-                <div class="column">
+                <div class="column is-12">
                     <hr>
                     <b-field grouped group-multiline>
+
+
+                        <!-- Add consequence button -->
                         <div class="control is-flex">
                             <a class="button" @click.prevent="addConsequence">
                                     <span class="icon is-primary">
@@ -40,6 +43,10 @@
                                 <span>Consecuencia</span>
                             </a>
                         </div>
+                        <!-- /Add consequence button -->
+
+
+                        <!-- Add alternative button -->
                         <div class="control is-flex">
                             <a class="button" @click.prevent="addAlternative">
                                     <span class="icon is-primary">
@@ -48,98 +55,148 @@
                                 <span>Alternativa</span>
                             </a>
                         </div>
+                        <!-- /Add alternative button -->
+
+
+                        <!-- Switch between cost & gain -->
                         <div class="control is-flex">
-                            <b-switch v-model="isSwitchedCustom"
-                                      true-value="Costo"
-                                      false-value="Ganancia">
-                                {{ isSwitchedCustom }}
+                            <b-switch
+                                    v-model="switchCostGain"
+                                    true-value="Costo"
+                                    false-value="Ganancia"
+                            >
+                                {{ switchCostGain }}
                             </b-switch>
                         </div>
+                        <!-- /Switch between cost & gain -->
+
+
                     </b-field>
+
+
+                    <!-- Radio buttons to select decision criteria. -->
                     <b-field grouped group-multiline>
                         <div class="block">
-                            <b-radio v-model="radio"
-                                     native-value="optimist">
+
+                            <b-radio
+                                    v-model="criteria"
+                                    native-value="optimist"
+                            >
                                 Optimista
                             </b-radio>
-                            <b-radio v-model="radio"
+
+                            <b-radio v-model="criteria"
                                      native-value="pesimist">
                                 Pesimista
                             </b-radio>
-                            <b-radio v-model="radio"
+
+                            <b-radio v-model="criteria"
                                      native-value="savage">
                                 Savage
                             </b-radio>
-                            <b-radio v-model="radio"
-                                     native-value="laplace">
+
+                            <b-radio
+                                    v-model="criteria"
+                                    native-value="laplace"
+                            >
                                 Laplace
                             </b-radio>
-                            <b-radio v-model="radio"
-                                     native-value="hurwicz">
+
+                            <b-radio
+                                    v-model="criteria"
+                                    native-value="hurwicz"
+                            >
                                 Hurwicz
                             </b-radio>
                         </div>
                     </b-field>
-                    <b-field v-if="radio == 'hurwicz'"
-                             type="number"
-                             label="Lambda">
-                        <b-input :value="0.5"></b-input>
+                    <!-- /Radio buttons to select decision criteria. -->
+
+
+                    <!-- Lambda input -->
+                    <b-field
+                            v-if="criteria === 'hurwicz'"
+                            type="number"
+                            label="Lambda"
+                    >
+                        <b-input
+                                :value="hurwiczValue"
+                        >
+                        </b-input>
                     </b-field>
+                    <!-- /Lambda input -->
+
+
                     <hr>
-                    <table>
+
+
+                    <!-- Decision table -->
+                    <table class="table-fill">
+
+
+                        <!-- Table Header -->
                         <thead>
                         <tr>
                             <th></th>
                             <th v-for="(consequence, index) in consequences">
-                                <input type="text" placeholder="consecuencia"><!--{{ consequence.title }}-->
+                                <input type="text" placeholder="consecuencia">
                             </th>
                             <th></th>
                         </tr>
                         </thead>
+                        <!-- /Table Header -->
+
+
+                        <!-- Table Body -->
                         <tbody>
-                        <tr>
-                            <td></td>
-                            <td v-for="(consequence, index) in consequences">
-                                <b-tooltip label="Eliminar consecuencia"
-                                           position="is-right"
-                                           type="is-danger"
-                                           animated>
-                                    <a @click.prevent="deleteConsequence(consequence, index)">
-                                        <span class="icon has-text-danger">
-                                            <i class="fa fa-trash-o"></i>
-                                        </span>
-                                    </a>
-                                </b-tooltip>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr v-for="(alternativeArray, index) in alternatives"
-                            :class="answ == index ? 'isResult' : ''">
-                            <td>
-                                <input type="text" placeholder="alternativa">
-                                <!--Alternativa {{ (index + 1).toString() }}-->
-                            </td>
-                            <td v-for="(alternative, index) in alternativeArray">
-                                <input type="number"
-                                       :placeholder="alternative[Object.keys(alternative)[0]]"
-                                       v-model="alternative[Object.keys(alternative)[0]]"
-                                       @change="changedAlternatives">
-                            </td>
-                            <td>
-                                <b-tooltip label="Eliminar alternativa"
-                                           position="is-top"
-                                           type="is-danger"
-                                           animated>
-                                    <a @click.prevent="deleteAlternative(index)">
+                            <tr>
+                                <td></td>
+                                <td v-for="(consequence, index) in consequences">
+                                    <b-tooltip label="Eliminar consecuencia"
+                                               position="is-right"
+                                               type="is-danger"
+                                               animated>
+                                        <a @click.prevent="deleteConsequence(consequence, index)">
                                             <span class="icon has-text-danger">
                                                 <i class="fa fa-trash-o"></i>
                                             </span>
-                                    </a>
-                                </b-tooltip>
-                            </td>
-                        </tr>
+                                        </a>
+                                    </b-tooltip>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr v-for="(alternativeArray, index) in alternatives"
+                                :class="answer == index ? 'isResult' : ''">
+                                <td>
+                                    <input type="text" placeholder="alternativa">
+                                </td>
+                                <td v-for="(alternative, index) in alternativeArray">
+                                    <input type="number"
+                                           :placeholder="alternative[Object.keys(alternative)[0]]"
+                                           v-model="alternative[Object.keys(alternative)[0]]"
+                                           @change="changedAlternatives">
+                                </td>
+                                <td>
+                                    <b-tooltip label="Eliminar alternativa"
+                                               position="is-top"
+                                               type="is-danger"
+                                               animated>
+                                        <a @click.prevent="deleteAlternative(index)">
+                                            <span class="icon has-text-danger">
+                                                <i class="fa fa-trash-o"></i>
+                                            </span>
+                                        </a>
+                                    </b-tooltip>
+                                </td>
+                            </tr>
                         </tbody>
+                        <!-- Table Body -->
+
+
                     </table>
+                    <!-- Decision table -->
+
+
                     <hr>
                 </div>
             </div>
@@ -147,198 +204,6 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'simulation',
-        data() {
-            return {
-                isSwitchedCustom: 'Costo',
-                radio: 'optimist',
-                consequences: [
-                    {title: 'C1', field: 'C1'}
-                ],
-                alternatives: [
-                    [{'C1': ''}]
-                ],
-                optimistval: '',
-                answ: ''
-            }
-        },
-        methods: {
-            addConsequence() {
-                const number = this.consequences.length + 1;
-                const consequence = 'C' + number.toString();
-                this.alternatives.map((currentValue, index, array) => {
-                    currentValue.push({
-                        [consequence]: ''
-                    });
-                    return currentValue;
-                });
-                this.consequences.push({title: consequence, field: consequence});
-            },
-            addAlternative() {
-                let alternative = [];
-                this.consequences.forEach((currentValue, index, array) => {
-                    alternative.push({
-                        [currentValue.field]: ''
-                    });
-                });
-                this.alternatives.push(alternative);
-            },
-            deleteConsequence(consequence, index) {
-                this.alternatives.map((currentValue, index, array) => {
-                    currentValue.map((currentValue, index, array) => {
-                        if (Object.keys(currentValue)[0] === consequence.field) {
-                            array.splice(index, 1);
-                        }
-                    });
-                    return currentValue;
-                });
-                this.consequences.splice(index, 1);
-            },
-            deleteAlternative(index) {
-                this.alternatives.splice(index, 1);
-            },
-            getMaxiMax() {
-                let maxiMax = null;
-                let result = null;
-                this.alternatives.forEach((alternative, alternativeIndex, alternativeArray) => {
-                    alternative.forEach((alternativeConsequenceValue, index, array) => {
-                        if ((parseInt(alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]], 10) > parseInt(maxiMax, 10)) || (maxiMax === null)) {
-                            maxiMax = alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]];
-                            result = alternativeIndex;
-                        }
-                    });
-                });
-                this.optimistval = maxiMax;
-                this.answ = result;
-            },
-            changedAlternatives() {
-                this.getMaxiMax();
-            }
-        },
-        watch: {
-            alternatives: function () {
-                this.getMaxiMax();
-            },
-            consequences: function () {
-                this.getMaxiMax();
-            }
-        }
-    }
-</script>
+<script src="./io-simulation.js"></script>
 
-<style>
-    .io-shadow {
-        -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
-    }
-
-    .isResult {
-        background-color: #B3E5FC;
-        border-color: #40C4FF;
-    }
-
-    table {
-        border: 1px solid #ccc;
-        border-collapse: collapse;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        table-layout: fixed;
-    }
-
-    table tr {
-        background: #f8f8f8;
-        border: 1px solid #ddd;
-        padding: .35em;
-    }
-
-    table th,
-    table td {
-        padding: .625em;
-        text-align: center;
-    }
-
-    table th {
-        /*font-size: .85em;
-        letter-spacing: .1em;
-        text-transform: uppercase;*/
-    }
-
-    @media screen and (max-width: 600px) {
-        table {
-            border: 0;
-        }
-
-        table caption {
-            font-size: 1.3em;
-        }
-
-        table thead {
-            border: none;
-            clip: rect(0 0 0 0);
-            height: 1px;
-            margin: -1px;
-            overflow: hidden;
-            padding: 0;
-            position: absolute;
-            width: 1px;
-        }
-
-        table tr {
-            border-bottom: 3px solid #ddd;
-            display: block;
-            margin-bottom: .625em;
-        }
-
-        table td {
-            border-bottom: 1px solid #ddd;
-            display: block;
-            font-size: .8em;
-            text-align: right;
-        }
-
-        table td:before {
-            /*
-            * aria-label has no advantage, it won't be read inside a table
-            content: attr(aria-label);
-            */
-            content: attr(data-label);
-            float: left;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        table td:last-child {
-            border-bottom: 0;
-        }
-    }
-
-    th, td {
-        border-left: 1px black;
-    }
-
-    input[type=text],
-    input[type=number] {
-        background: none;
-        font-size: 18px;
-        padding: 10px 10px 10px 5px;
-        display: block;
-        width: 75%;
-        border: none;
-        border-radius: 0;
-    }
-
-    input[type=text]:focus {
-        border: none;
-        outline: none 0;
-    }
-
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-    }
-</style>
+<style src="./../assets/css/io-simulation.css" scoped></style>

@@ -1,0 +1,129 @@
+/*-----------------------------------------------------------------
+ * Custom css styles.
+  -----------------------------------------------------------------*/
+
+
+.io-shadow {
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+}
+
+.isResult {
+    background-color: #B3E5FC;
+    border-color: #40C4FF;
+}
+
+
+/*-----------------------------------------------------------------
+ * Input css styles.
+  -----------------------------------------------------------------*/
+
+
+input[type=text],
+input[type=number] {
+    background: none;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 75%;
+    border: none;
+    border-radius: 0;
+}
+
+input[type=text]:focus {
+    border: none;
+    outline: none 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+
+/*-----------------------------------------------------------------
+ * Table css styles.
+  -----------------------------------------------------------------*/
+
+table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+table tr {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+}
+
+table th,
+table td {
+    padding: .625em;
+    text-align: center;
+}
+
+table th {
+    /*font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;*/
+}
+
+@media screen and (max-width: 600px) {
+    table {
+        border: 0;
+    }
+
+    table caption {
+        font-size: 1.3em;
+    }
+
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+    }
+
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+
+    table td:before {
+        /*
+        * aria-label has no advantage, it won't be read inside a table
+        content: attr(aria-label);
+        */
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    table td:last-child {
+        border-bottom: 0;
+    }
+}
+
+th, td {
+    border-left: 1px black;
+}
+
