@@ -65,8 +65,8 @@
                                 <div class="control is-flex">
                                     <b-switch
                                             v-model="switchCostGain"
-                                            true-value="Costo"
-                                            false-value="Ganancia"
+                                            true-value="costo"
+                                            false-value="ganancia"
                                     >
                                         {{ switchCostGain }}
                                     </b-switch>
@@ -89,7 +89,7 @@
                                     </b-radio>
 
                                     <b-radio v-model="criteria"
-                                             native-value="pesimist">
+                                             native-value="pessimist">
                                         Pesimista
                                     </b-radio>
 
