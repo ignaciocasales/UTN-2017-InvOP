@@ -132,8 +132,9 @@
                                 &nbsp;
                                 <input
                                         type="number"
-                                        v-model="hurwiczValue"
-                                        :value="hurwiczValue"
+                                        v-model="hurwiczLambda"
+                                        :value="hurwiczLambda"
+                                        @change="changedAlternatives"
                                 >
                             </b-field>
                             <!-- /Lambda input -->
