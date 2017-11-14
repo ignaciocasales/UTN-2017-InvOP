@@ -123,13 +123,13 @@ export default {
                 alternative.forEach((alternativeConsequenceValue, index) => {
                     const currentValue = alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]];
                     let currentColumnMaxValue = null;
-                    if (columnsMaxValues.length === 0) {
+                    if (typeof columnsMaxValues[index] === 'undefined') {
                         currentColumnMaxValue = currentValue;
                     } else {
                         currentColumnMaxValue = columnsMaxValues[index][Object.keys(columnsMaxValues[index])[0]];
                     }
                     if ((parseInt(currentValue, 10) >= parseInt(currentColumnMaxValue, 10)) || (currentColumnMaxValue === null) || (currentValue === "")) {
-                        columnsMaxValues.push(alternativeConsequenceValue);
+                        columnsMaxValues[index] = alternativeConsequenceValue;
                     }
                 });
             });
@@ -148,13 +148,13 @@ export default {
                 alternative.forEach((alternativeConsequenceValue, index) => {
                     const currentValue = alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]];
                     let currentColumnMinValue = null;
-                    if (columnsMinValues.length === 0) {
+                    if (typeof columnsMinValues[index] === 'undefined') {
                         currentColumnMinValue = currentValue;
                     } else {
                         currentColumnMinValue = columnsMinValues[index][Object.keys(columnsMinValues[index])[0]];
                     }
                     if ((parseInt(currentValue, 10) <= parseInt(currentColumnMinValue, 10)) || (currentColumnMinValue === null) || (currentValue === "")) {
-                        columnsMinValues.push(alternativeConsequenceValue);
+                        columnsMinValues[index] = alternativeConsequenceValue;
                     }
                 });
             });
@@ -167,7 +167,6 @@ export default {
          */
         getSavageGainMatrix() {
             const columnsMaxValues = this.getColumnsMaxValues();
-
             return this.alternatives.map((alternative) => {
                 return alternative.map((alternativeConsequenceValue, index) => {
                     const currentColumnMaxValue = columnsMaxValues[index][Object.keys(columnsMaxValues[index])[0]];
@@ -197,15 +196,35 @@ export default {
         /**
          * Get the Savage gain matrix.
          */
-        getSavageMaximumsResultsMatrix() {
-            return this.getMaximumsMatrix(this.getSavageGainMatrix());
+        getSavageMaximumsGainResultsMatrix() {
+            return this.getSavageGainMatrix().map((alternative) => {
+                let maximumRelativeObject = null;
+                let maximumRelativeValue = null;
+                alternative.forEach((alternativeConsequenceValue) => {
+                    if ((parseInt(alternativeConsequenceValue, 10) > parseInt(maximumRelativeValue, 10)) || (maximumRelativeValue === null)) {
+                        maximumRelativeValue = alternativeConsequenceValue;
+                        maximumRelativeObject = alternativeConsequenceValue;
+                    }
+                });
+                return maximumRelativeObject;
+            });
         },
 
         /**
          * Get the Savage cost matrix.
          */
-        getSavageMinimumsResultsMatrix() {
-            return this.getMinimumsMatrix(this.getSavageCostMatrix());
+        getSavageMaximumsCostResultsMatrix() {
+            return this.getSavageCostMatrix().map((alternative) => {
+                let maximumRelativeObject = null;
+                let maximumRelativeValue = null;
+                alternative.forEach((alternativeConsequenceValue) => {
+                    if ((parseInt(alternativeConsequenceValue, 10) > parseInt(maximumRelativeValue, 10)) || (maximumRelativeValue === null)) {
+                        maximumRelativeValue = alternativeConsequenceValue;
+                        maximumRelativeObject = alternativeConsequenceValue;
+                    }
+                });
+                return maximumRelativeObject;
+            });
         },
 
         /**
@@ -335,14 +354,30 @@ export default {
          *
          */
         getSavageMiniMaxGain() {
-            return this.getMax(this.getSavageMaximumsResultsMatrix());
+            let miniMinValue = null;
+            let result = null;
+            this.getSavageMaximumsGainResultsMatrix().forEach((alternative, alternativeIndex) => {
+                if ((parseInt(alternative, 10) < parseInt(miniMinValue, 10)) || (miniMinValue === null)) {
+                    miniMinValue = alternative;
+                    result = alternativeIndex;
+                }
+            });
+            return result;
         },
 
         /**
          *
          */
         getSavageMiniMaxCost() {
-            return this.getMax(this.getSavageMinimumsResultsMatrix());
+            let miniMinValue = null;
+            let result = null;
+            this.getSavageMaximumsCostResultsMatrix().forEach((alternative, alternativeIndex) => {
+                if ((parseInt(alternative, 10) < parseInt(miniMinValue, 10)) || (miniMinValue === null)) {
+                    miniMinValue = alternative;
+                    result = alternativeIndex;
+                }
+            });
+            return result;
         },
 
         /**
