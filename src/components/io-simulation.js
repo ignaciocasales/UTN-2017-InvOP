@@ -270,14 +270,26 @@ export default {
 
             const resultMatrix = [];
 
-            maximumsMatrix.forEach((currentValue, index) => {
-                resultMatrix.push({
-                    value: this.getHurwiczCalculationResult(
-                        currentValue[Object.keys(currentValue)[0]],
-                        minimumsMatrix[index][Object.keys(minimumsMatrix[index])[0]]
-                    )
+            if (this.switchCostGain === 'ganancia') {
+                maximumsMatrix.forEach((currentValue, index) => {
+                    resultMatrix.push({
+                        value: this.getHurwiczCalculationResult(
+                            currentValue[Object.keys(currentValue)[0]],
+                            minimumsMatrix[index][Object.keys(minimumsMatrix[index])[0]]
+                        )
+                    });
                 });
-            });
+            } else if (this.switchCostGain === 'costo') {
+                maximumsMatrix.forEach((currentValue, index) => {
+                    resultMatrix.push({
+                        value: this.getHurwiczCalculationResult(
+                            minimumsMatrix[index][Object.keys(minimumsMatrix[index])[0]],
+                            currentValue[Object.keys(currentValue)[0]]
+                        )
+                    });
+                });
+            }
+
 
             return resultMatrix;
         },
@@ -411,7 +423,7 @@ export default {
          * alternatives array so we can display it.
          */
         getMinH() {
-            return this.getMax(this.getHurwiczMatrix());
+            return this.getMin(this.getHurwiczMatrix());
         },
 
         /**
