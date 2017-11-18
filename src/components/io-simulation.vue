@@ -13,26 +13,12 @@
                 </nav>
             </div>
         </div>
-        <!--<div class="container">
-            <section class="hero">
-                <div class="hero-body">
-                    <div class="container">
-                        <h2 class="title is-2">
-                            Investigación Operativa
-                        </h2>
-                        <h2 class="subtitle">
-                            Teoria de decisiones
-                        </h2>
-                    </div>
-                </div>
-            </section>
-        </div>-->
         <div class="container is-fluid" style="margin: 10px; padding: 25px">
-            <div class="columns">
+            <div class="columns is-centered">
                 <div class="column is-12">
                     <hr>
 
-                    <div class="columns">
+                    <div class="columns is-centered">
                         <div class="column is-6">
                             <b-field grouped group-multiline>
 
@@ -121,22 +107,24 @@
 
 
                             <!-- Lambda input -->
-                            <b-field
-                                    grouped
-                                    v-if="criteria === 'hurwicz'"
-                                    type="number"
-                                    label="Lambda:"
-                            >
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                <input
-                                        type="number"
-                                        v-model="hurwiczLambda"
-                                        :value="hurwiczLambda"
-                                        @change="changedAlternatives"
-                                >
-                            </b-field>
+	                        <b-tooltip label="VALOR ENTRE 0 Y 1">
+		                        <b-field
+				                        grouped
+				                        v-if="criteria === 'hurwicz'"
+				                        type="number"
+				                        label="Lambda:"
+		                        >
+			                        &nbsp;
+			                        &nbsp;
+			                        &nbsp;
+			                        <input
+					                        type="number"
+					                        v-model="hurwiczLambda"
+					                        :value="hurwiczLambda"
+					                        @change="changedAlternatives"
+			                        >
+		                        </b-field>
+	                        </b-tooltip>
                             <!-- /Lambda input -->
 
 
@@ -145,73 +133,86 @@
 
 
                     <hr>
-
+	                <span>Consecuencias:&nbsp;&nbsp;{{ consequences.length }}</span>
+	                <br>
+	                <span>Alternativas:&nbsp;&nbsp;{{ alternatives.length }}</span>
+                    <hr>
 
                     <!-- Decision table -->
-                    <table class="table-fill">
+	                <div style="overflow-x: auto">
+		                <table class="table-fill" v-if="(consequences.length > 0) && (alternatives.length > 0)">
 
 
-                        <!-- Table Header -->
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th v-for="(consequence, index) in consequences">
-                                    <input type="text" placeholder="Consecuencia">
-                                    <b-tooltip
-                                            label="Eliminar consecuencia"
-                                            position="is-top"
-                                            type="is-danger"
-                                            animated
-                                    >
-                                        <a @click.prevent="deleteConsequence(consequence, index)">
-                                            <span class="icon has-text-dark">
-                                                <i class="fa fa-trash-o"></i>
-                                            </span>
-                                        </a>
-                                    </b-tooltip>
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <!-- /Table Header -->
+			                <!-- Table Header -->
+			                <thead>
+			                <tr>
+				                <th></th>
+				                <th v-for="(consequence, index) in consequences">
+					                <span style="white-space:nowrap;">
+						                <input type="text" placeholder="Consecuencia">
+						                <b-tooltip
+								                label="Eliminar consecuencia"
+								                position="is-left"
+								                type="is-danger"
+								                animated
+						                >
+							                <a @click.prevent="deleteConsequence(consequence, index)">
+	                                            <span class="icon has-text-dark">
+	                                                <i class="fa fa-trash-o"></i>
+	                                            </span>
+							                </a>
+					                    </b-tooltip>
+					                </span>
+				                </th>
+				                <th></th>
+			                </tr>
+			                </thead>
+			                <!-- /Table Header -->
 
 
-                        <!-- Table Body -->
-                        <tbody>
-                            <tr v-for="(alternativeArray, index) in alternatives"
-                                :class="answer == index ? 'isResult' : ''">
-                                <td>
-                                    <input type="text" placeholder="Alternativa">
-                                </td>
-                                <td v-for="(alternative, index) in alternativeArray">
-                                    <input
-                                            type="number"
-                                            placeholder="Valor..."
-                                            v-model="alternative[Object.keys(alternative)[0]]"
-                                            @change="changedAlternatives"
-                                    >
-                                </td>
-                                <td>
-                                    <b-tooltip
-                                            label="Eliminar alternativa"
-                                            position="is-top"
-                                            type="is-danger"
-                                            animated
-                                    >
-                                        <a @click.prevent="deleteAlternative(index)">
+			                <!-- Table Body -->
+			                <tbody>
+			                <tr v-for="(alternativeArray, index) in alternatives"
+			                    :class="answer == index ? 'isResult' : ''">
+				                <td>
+					                <input type="text" placeholder="Alternativa">
+				                </td>
+				                <td v-for="(alternative, index) in alternativeArray">
+					                <input
+							                type="number"
+							                placeholder="Valor..."
+							                v-model="alternative[Object.keys(alternative)[0]]"
+							                @change="changedAlternatives"
+					                >
+				                </td>
+				                <td>
+					                <b-tooltip
+							                label="Eliminar alternativa"
+							                position="is-top"
+							                type="is-danger"
+							                animated
+					                >
+						                <a @click.prevent="deleteAlternative(index)">
                                                 <span class="icon has-text-dark">
                                                     <i class="fa fa-trash-o"></i>
                                                 </span>
-                                        </a>
-                                    </b-tooltip>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <!-- Table Body -->
+						                </a>
+					                </b-tooltip>
+				                </td>
+			                </tr>
+			                </tbody>
+			                <!-- Table Body -->
 
 
-                    </table>
+		                </table>
+	                </div>
                     <!-- Decision table -->
+
+	                <div v-if="(consequences.length <= 0) || (alternatives.length <= 0)">
+		                <b-notification type="is-info" has-icon>
+			                La tabla debe tener al menos una alernativa y una consecuecia.
+		                </b-notification>
+	                </div>
 
 
                     <hr>

@@ -538,6 +538,15 @@ export default {
          */
         changedAlternatives() {
             this.resultCalc();
+        },
+
+        hurwiczMaxMin() {
+            if (this.hurwiczLambda > 1) {
+                this.hurwiczLambda = 1;
+            }
+            if (this.hurwiczLambda < 0) {
+                this.hurwiczLambda = 0;
+            }
         }
     },
 
@@ -568,6 +577,10 @@ export default {
          */
         switchCostGain: function () {
             this.resultCalc();
+        },
+
+        hurwiczLambda: function () {
+            this.hurwiczMaxMin();
         }
     }
 }
