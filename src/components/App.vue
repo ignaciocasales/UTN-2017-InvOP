@@ -5,11 +5,13 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        name: 'app'
+    }
 </script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css?family=Raleway');
+    @import url('https://fonts.googleapis.com/css?family=Ubuntu');
     @import "./../assets/css/animate.css";
 
     html {
@@ -17,6 +19,6 @@
     }
 
     body {
-        font-family: 'Raleway', sans-serif;
+        font-family: 'Ubuntu', sans-serif;
     }
 </style>

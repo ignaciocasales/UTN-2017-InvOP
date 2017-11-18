@@ -7,7 +7,7 @@
                         <h1 class="title animated fadeIn">
                             404 - Not Found
                         </h1>
-                        <a href="/home" class="animated fadeIn">Go to home.</a>
+                        <a href="/#/home" class="animated fadeIn">Go to home.</a>
                     </div>
                 </div>
             </div>
