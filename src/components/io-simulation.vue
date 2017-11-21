@@ -8,7 +8,15 @@
                         <span class="icon is-medium">
                             <i class="fa fa-home"></i>
                         </span>
+                            Ir a inicio
                         </a>
+                    </div>
+                    <div class="navbar-menu">
+                        <div class="navbar-end">
+                            <a class="navbar-item">
+                                <img src="/img/utn-logo-small.png" alt="UTN"/>
+                            </a>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -109,7 +117,7 @@
                         </div>
                     </div>
                     <div class="columns is-centered" v-if="criteria === 'hurwicz'">
-                        <div class="column is-12-tablet is-8-desktop is-offset-2-desktop">
+                        <div class="column is-12">
                             <div class="box has-text-centered">
 
 
@@ -142,14 +150,6 @@
                     <hr>
 
 
-                    <div class="notification is-primary" has-icon>
-                        La alternativa óptima según el criterio será resaltada.
-                    </div>
-
-
-                    <hr>
-
-
 	                <span><strong>Consecuencias:</strong>&nbsp;&nbsp;{{ consequences.length }}</span>
 	                <br>
 	                <span><strong>Alternativas:</strong>&nbsp;&nbsp;{{ alternatives.length }}</span>
@@ -158,9 +158,17 @@
                     <hr>
 
 
+                    <div class="notification is-primary" has-icon>
+                        La alternativa óptima según el criterio será <strong>resaltada</strong>.
+                    </div>
+
+
+                    <hr>
+
+
                     <!-- Decision table -->
 	                <div class="box has-text-centered" style="overflow-x: auto">
-		                <table class="table-fill" v-if="(consequences.length > 0) && (alternatives.length > 0)">
+		                <table class="table-fill has-text-centered" style="margin-left: auto; margin-right: auto;" v-if="(consequences.length > 0) && (alternatives.length > 0)">
 
 
 			                <!-- Table Header -->
@@ -172,7 +180,7 @@
 						                <input type="text" placeholder="Consecuencia">
 						                <b-tooltip
 								                label="Eliminar consecuencia"
-								                position="is-left"
+								                position="is-top"
 								                type="is-danger"
 								                animated
 						                >
@@ -232,10 +240,26 @@
                     <hr>
 
 
-                    <span><strong>Valor Resultado:&nbsp;{{ answerValue }}</strong></span>
+                    <div class="box">
+                        <span><strong>Valor Resultado:&nbsp;{{ answerValue }}</strong></span>
+                    </div>
                 </div>
             </div>
         </div>
+        <footer class="footer" style="padding: 15px 5px;">
+            <div class="container">
+                <div class="content has-text-centered">
+                    <p>
+                        <strong>Teoria de decisiones</strong> by Ignacio Casales, Santiago Blanc & Alejandro Schulten.
+                    </p>
+                </div>
+                <div class="content has-text-right">
+                    <span>
+                        Universidad Tecnológica Nacional - 2017
+                    </span>
+                </div>
+            </div>
+        </footer>
     </div>
 </template>
 
