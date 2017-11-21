@@ -17,7 +17,9 @@ export default {
 
             hurwiczLambda: 0.5,
 
-            answer: ''
+            answer: '',
+
+            answerValue: ''
         }
     },
 
@@ -332,7 +334,10 @@ export default {
          * alternatives array so we can display it.
          */
         getMaxiMax() {
-            return this.getMax(this.getMaximumsMatrix());
+            const matrix = this.getMaximumsMatrix();
+            const answer = this.getMax(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**
@@ -341,7 +346,10 @@ export default {
          * alternatives array so we can display it.
          */
         getMiniMin() {
-            return this.getMin(this.getMinimumsMatrix());
+            const matrix = this.getMinimumsMatrix();
+            const answer = this.getMin(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**
@@ -350,7 +358,10 @@ export default {
          * alternatives array so we can display it.
          */
         getMaxiMin() {
-            return this.getMin(this.getMaximumsMatrix());
+            const matrix = this.getMaximumsMatrix();
+            const answer = this.getMin(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**
@@ -359,36 +370,47 @@ export default {
          * alternatives array so we can display it.
          */
         getMiniMax() {
-            return this.getMax(this.getMinimumsMatrix());
+            const matrix = this.getMinimumsMatrix();
+            const answer = this.getMax(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**
-         *
+         * Get the the minimum from the Savage matrix.
+         * Returns the index of the MaxLi in the
+         * alternatives array so we can display it.
          */
         getSavageMiniMaxGain() {
             let miniMinValue = null;
             let result = null;
-            this.getSavageMaximumsGainResultsMatrix().forEach((alternative, alternativeIndex) => {
+            const matrix = this.getSavageMaximumsGainResultsMatrix();
+            matrix.forEach((alternative, alternativeIndex) => {
                 if ((parseInt(alternative, 10) < parseInt(miniMinValue, 10)) || (miniMinValue === null)) {
                     miniMinValue = alternative;
                     result = alternativeIndex;
                 }
             });
+            this.answerValue = matrix[result];
             return result;
         },
 
         /**
-         *
+         * Get the the minimum from the Savage matrix.
+         * Returns the index of the MaxLi in the
+         * alternatives array so we can display it.
          */
         getSavageMiniMaxCost() {
             let miniMinValue = null;
             let result = null;
-            this.getSavageMaximumsCostResultsMatrix().forEach((alternative, alternativeIndex) => {
+            const matrix = this.getSavageMaximumsCostResultsMatrix();
+            matrix.forEach((alternative, alternativeIndex) => {
                 if ((parseInt(alternative, 10) < parseInt(miniMinValue, 10)) || (miniMinValue === null)) {
                     miniMinValue = alternative;
                     result = alternativeIndex;
                 }
             });
+            this.answerValue = matrix[result];
             return result;
         },
 
@@ -398,7 +420,10 @@ export default {
          * alternatives array so we can display it.
          */
         getMaxLi() {
-            return this.getMax(this.getAveragesMatrix());
+            const matrix = this.getAveragesMatrix();
+            const answer = this.getMax(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**
@@ -407,7 +432,10 @@ export default {
          * alternatives array so we can display it.
          */
         getMinLi() {
-            return this.getMin(this.getAveragesMatrix());
+            const matrix = this.getAveragesMatrix();
+            const answer = this.getMin(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**
@@ -415,7 +443,10 @@ export default {
          * alternatives array so we can display it.
          */
         getMaxH() {
-            return this.getMax(this.getHurwiczMatrix());
+            const matrix = this.getHurwiczMatrix();
+            const answer = this.getMax(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**
@@ -423,7 +454,10 @@ export default {
          * alternatives array so we can display it.
          */
         getMinH() {
-            return this.getMin(this.getHurwiczMatrix());
+            const matrix = this.getHurwiczMatrix();
+            const answer = this.getMin(matrix);
+            this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            return answer;
         },
 
         /**

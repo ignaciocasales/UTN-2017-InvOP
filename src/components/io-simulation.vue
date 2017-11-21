@@ -15,131 +15,151 @@
         </div>
         <div class="container is-fluid" style="margin: 10px; padding: 25px">
             <div class="columns is-centered">
-                <div class="column is-12">
+                <div class="column is-12 has-text-centered has-text-weight-light">
+
+
+                    <h1 class="title">Toma de decisiones</h1>
+
+
                     <hr>
 
                     <div class="columns is-centered">
-                        <div class="column is-6">
-                            <b-field grouped group-multiline>
+                        <div class="column is-12">
+                            <div class="has-text-centered">
+                                <b-field grouped group-multiline position="is-centered">
 
 
-                                <!-- Add consequence button -->
-                                <div class="control is-flex">
-                                    <a class="button" @click.prevent="addConsequence">
+                                    <!-- Add consequence button -->
+                                    <div class="control is-flex">
+                                        <a class="button" @click.prevent="addConsequence">
                                     <span class="icon is-primary">
                                       <i class="fa fa-plus"></i>
                                     </span>
-                                        <span>Consecuencia</span>
-                                    </a>
-                                </div>
-                                <!-- /Add consequence button -->
+                                            <span>Consecuencia</span>
+                                        </a>
+                                    </div>
 
 
-                                <!-- Add alternative button -->
-                                <div class="control is-flex">
-                                    <a class="button" @click.prevent="addAlternative">
+                                    <!-- Add alternative button -->
+                                    <div class="control is-flex">
+                                        <a class="button" @click.prevent="addAlternative">
                                     <span class="icon is-primary">
                                       <i class="fa fa-plus"></i>
                                     </span>
-                                        <span>Alternativa</span>
-                                    </a>
-                                </div>
-                                <!-- /Add alternative button -->
+                                            <span>Alternativa</span>
+                                        </a>
+                                    </div>
 
 
-                                <!-- Switch between cost & gain -->
-                                <div class="control is-flex">
-                                    <b-switch
-                                            v-model="switchCostGain"
-                                            true-value="costo"
-                                            false-value="ganancia"
-                                    >
-                                        {{ switchCostGain }}
-                                    </b-switch>
-                                </div>
-                                <!-- /Switch between cost & gain -->
-
-
-                            </b-field>
-
-
-                            <!-- Radio buttons to select decision criteria. -->
-                            <b-field grouped group-multiline>
-                                <div class="block">
-
-                                    <b-radio
-                                            v-model="criteria"
-                                            native-value="optimist"
-                                    >
-                                        Optimista
-                                    </b-radio>
-
-                                    <b-radio v-model="criteria"
-                                             native-value="pessimist">
-                                        Pesimista
-                                    </b-radio>
-
-                                    <b-radio v-model="criteria"
-                                             native-value="savage">
-                                        Savage
-                                    </b-radio>
-
-                                    <b-radio
-                                            v-model="criteria"
-                                            native-value="laplace"
-                                    >
-                                        Laplace
-                                    </b-radio>
-
-                                    <b-radio
-                                            v-model="criteria"
-                                            native-value="hurwicz"
-                                    >
-                                        Hurwicz
-                                    </b-radio>
-                                </div>
-                            </b-field>
-                            <!-- /Radio buttons to select decision criteria. -->
-
-
+                                    <!-- Switch between cost & gain -->
+                                    <div class="control is-flex">
+                                        <b-switch
+                                                v-model="switchCostGain"
+                                                true-value="costo"
+                                                false-value="ganancia"
+                                        >
+                                            {{ switchCostGain }}
+                                        </b-switch>
+                                    </div>
+                                </b-field>
+                            </div>
                         </div>
-                        <div class="column is-6">
+                    </div>
+                    <div class="columns is-centered">
+                        <div class="column is-12">
+                            <div class="has-text-centered">
 
 
-                            <!-- Lambda input -->
-	                        <b-tooltip label="VALOR ENTRE 0 Y 1">
-		                        <b-field
-				                        grouped
-				                        v-if="criteria === 'hurwicz'"
-				                        type="number"
-				                        label="Lambda:"
-		                        >
-			                        &nbsp;
-			                        &nbsp;
-			                        &nbsp;
-			                        <input
-					                        type="number"
-					                        v-model="hurwiczLambda"
-					                        :value="hurwiczLambda"
-					                        @change="changedAlternatives"
-			                        >
-		                        </b-field>
-	                        </b-tooltip>
-                            <!-- /Lambda input -->
+                                <!-- Radio buttons to select decision criteria. -->
+                                <b-field grouped group-multiline position="is-centered">
+                                    <div class="block">
+                                        <b-radio
+                                                v-model="criteria"
+                                                native-value="optimist"
+                                        >
+                                            Optimista
+                                        </b-radio>
+
+                                        <b-radio v-model="criteria"
+                                                 native-value="pessimist">
+                                            Pesimista
+                                        </b-radio>
+
+                                        <b-radio v-model="criteria"
+                                                 native-value="savage">
+                                            Savage
+                                        </b-radio>
+
+                                        <b-radio
+                                                v-model="criteria"
+                                                native-value="laplace"
+                                        >
+                                            Laplace
+                                        </b-radio>
+
+                                        <b-radio
+                                                v-model="criteria"
+                                                native-value="hurwicz"
+                                        >
+                                            Hurwicz
+                                        </b-radio>
+                                    </div>
+                                </b-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns is-centered" v-if="criteria === 'hurwicz'">
+                        <div class="column is-12-tablet is-8-desktop is-offset-2-desktop">
+                            <div class="box has-text-centered">
 
 
+                                <!-- Lambda input -->
+                                <b-tooltip label="VALOR ENTRE 0 Y 1" position="is-right">
+                                    <b-field
+                                            grouped
+                                            v-if="criteria === 'hurwicz'"
+                                            type="number"
+                                            label="Lambda:"
+                                            position="is-centered"
+                                    >
+                                        &nbsp;
+                                        &nbsp;
+                                        &nbsp;
+                                        <input
+                                                type="number"
+                                                v-model="hurwiczLambda"
+                                                :value="hurwiczLambda"
+                                                @change="changedAlternatives"
+                                                style="background: none; border: 1px groove;"
+                                        >
+                                    </b-field>
+                                </b-tooltip>
+                            </div>
                         </div>
                     </div>
 
 
                     <hr>
-	                <span>Consecuencias:&nbsp;&nbsp;{{ consequences.length }}</span>
-	                <br>
-	                <span>Alternativas:&nbsp;&nbsp;{{ alternatives.length }}</span>
+
+
+                    <div class="notification is-primary" has-icon>
+                        La alternativa óptima según el criterio será resaltada.
+                    </div>
+
+
                     <hr>
 
+
+	                <span><strong>Consecuencias:</strong>&nbsp;&nbsp;{{ consequences.length }}</span>
+	                <br>
+	                <span><strong>Alternativas:</strong>&nbsp;&nbsp;{{ alternatives.length }}</span>
+
+
+                    <hr>
+
+
                     <!-- Decision table -->
-	                <div style="overflow-x: auto">
+	                <div class="box has-text-centered" style="overflow-x: auto">
 		                <table class="table-fill" v-if="(consequences.length > 0) && (alternatives.length > 0)">
 
 
@@ -167,7 +187,6 @@
 				                <th></th>
 			                </tr>
 			                </thead>
-			                <!-- /Table Header -->
 
 
 			                <!-- Table Body -->
@@ -201,21 +220,19 @@
 				                </td>
 			                </tr>
 			                </tbody>
-			                <!-- Table Body -->
-
-
 		                </table>
 	                </div>
-                    <!-- Decision table -->
-
 	                <div v-if="(consequences.length <= 0) || (alternatives.length <= 0)">
-		                <b-notification type="is-info" has-icon>
+                        <div class="notification is-info" type="info" has-icon>
 			                La tabla debe tener al menos una alernativa y una consecuecia.
-		                </b-notification>
+		                </div>
 	                </div>
 
 
                     <hr>
+
+
+                    <span><strong>Valor Resultado:&nbsp;{{ answerValue }}</strong></span>
                 </div>
             </div>
         </div>
