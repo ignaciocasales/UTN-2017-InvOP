@@ -5,7 +5,7 @@
                 <nav class="navbar" role="navigation" aria-label="main navigation">
                     <div class="navbar-brand">
                         <a class="navbar-item" @click.prevent="$router.push('home')">
-                        <span class="icon is-medium">
+                        <span class="icon is-medium is-primary">
                             <i class="fa fa-home"></i>
                         </span>
                             Ir a inicio
@@ -31,6 +31,7 @@
 
                     <hr>
 
+
                     <div class="columns is-centered">
                         <div class="column is-12">
                             <div class="has-text-centered">
@@ -39,23 +40,37 @@
 
                                     <!-- Add consequence button -->
                                     <div class="control is-flex">
-                                        <a class="button" @click.prevent="addConsequence">
-                                    <span class="icon is-primary">
-                                      <i class="fa fa-plus"></i>
-                                    </span>
-                                            <span>Consecuencia</span>
-                                        </a>
+                                        <b-tooltip
+                                                label="Agregar consecuencia"
+                                                position="is-top"
+                                                type="is-info"
+                                                animated
+                                        >
+                                            <a class="button" @click.prevent="addConsequence">
+                                            <span class="icon is-primary">
+                                              <i class="fa fa-plus"></i>
+                                            </span>
+                                                <span>Consecuencia</span>
+                                            </a>
+                                        </b-tooltip>
                                     </div>
 
 
                                     <!-- Add alternative button -->
                                     <div class="control is-flex">
-                                        <a class="button" @click.prevent="addAlternative">
-                                    <span class="icon is-primary">
-                                      <i class="fa fa-plus"></i>
-                                    </span>
-                                            <span>Alternativa</span>
-                                        </a>
+                                        <b-tooltip
+                                                label="Agregar alternativa"
+                                                position="is-top"
+                                                type="is-info"
+                                                animated
+                                        >
+                                            <a class="button" @click.prevent="addAlternative">
+                                            <span class="icon is-primary">
+                                              <i class="fa fa-plus"></i>
+                                            </span>
+                                                <span>Alternativa</span>
+                                            </a>
+                                        </b-tooltip>
                                     </div>
 
 
@@ -116,9 +131,10 @@
                             </div>
                         </div>
                     </div>
+                    <hr v-if="criteria === 'hurwicz'">
                     <div class="columns is-centered" v-if="criteria === 'hurwicz'">
                         <div class="column is-12">
-                            <div class="box has-text-centered">
+                            <div class="has-text-centered">
 
 
                                 <!-- Lambda input -->
@@ -138,7 +154,7 @@
                                                 v-model="hurwiczLambda"
                                                 :value="hurwiczLambda"
                                                 @change="changedAlternatives"
-                                                style="background: none; border: 1px groove;"
+                                                style="background: none; border: 1px groove; padding: 2px; border-radius: 2px;"
                                         >
                                     </b-field>
                                 </b-tooltip>
@@ -158,7 +174,7 @@
                     <hr>
 
 
-                    <div class="notification is-primary" has-icon>
+                    <div class="notification is-primary animated fadeIn" has-icon>
                         La alternativa óptima según el criterio será <strong>resaltada</strong>.
                     </div>
 
@@ -229,24 +245,34 @@
 			                </tr>
 			                </tbody>
 		                </table>
+                        <div v-if="(consequences.length <= 0) || (alternatives.length <= 0)">
+                            <div class="notification is-info animated fadeIn" type="info" has-icon>
+                                La tabla debe tener al menos una <strong>alernativa</strong> y una <strong>consecuecia</strong>.
+                            </div>
+                        </div>
 	                </div>
-	                <div v-if="(consequences.length <= 0) || (alternatives.length <= 0)">
-                        <div class="notification is-info" type="info" has-icon>
-			                La tabla debe tener al menos una alernativa y una consecuecia.
-		                </div>
-	                </div>
+
+                    <hr v-if="isMoreThanOneResultFlag === true">
+
+
+                    <div v-if="isMoreThanOneResultFlag === true" class="notification is-success animated fadeIn" has-icon>
+                        <strong>Se registró más de una factible elección de alternativa para el problema</strong>.
+                    </div>
 
 
                     <hr>
 
 
-                    <div class="box">
-                        <span><strong>Valor Resultado:&nbsp;{{ answerValue }}</strong></span>
+                    <div>
+                        <span><strong>Valor Resultado:&nbsp;{{ getAnswerValue() }}</strong></span>
                     </div>
+
+
+                    <hr>
                 </div>
             </div>
         </div>
-        <footer class="footer" style="padding: 15px 5px;">
+        <footer class="footer io-shadow-up" style="background-color: white; padding: 15px 5px; margin-top: 25px;">
             <div class="container">
                 <div class="content has-text-centered">
                     <p>

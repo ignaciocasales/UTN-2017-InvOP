@@ -1,4 +1,6 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/main.js',
@@ -6,6 +8,17 @@ module.exports = {
         path: path.resolve(__dirname, 'public', 'js'),
         filename: 'bundle.js'
     },
+    plugins: [
+        new UglifyJsPlugin({
+            test: /\.js($|\?)/i,
+            exclude: /node_modules/,
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"development"'
+            }
+        })
+    ],
     module: {
         rules: [
             {
