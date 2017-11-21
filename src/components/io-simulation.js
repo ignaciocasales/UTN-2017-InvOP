@@ -240,7 +240,7 @@ export default {
                 let sum = 0;
 
                 alternative.forEach((alternativeConsequenceValue) => {
-                    sum += alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]];
+                    sum += parseInt(alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]]);
                 });
 
                 averageObject = {
@@ -358,8 +358,8 @@ export default {
          * alternatives array so we can display it.
          */
         getMaxiMin() {
-            const matrix = this.getMaximumsMatrix();
-            const answer = this.getMin(matrix);
+            const matrix = this.getMinimumsMatrix();
+            const answer = this.getMax(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
             return answer;
         },
@@ -370,8 +370,8 @@ export default {
          * alternatives array so we can display it.
          */
         getMiniMax() {
-            const matrix = this.getMinimumsMatrix();
-            const answer = this.getMax(matrix);
+            const matrix = this.getMaximumsMatrix();
+            const answer = this.getMin(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
             return answer;
         },
