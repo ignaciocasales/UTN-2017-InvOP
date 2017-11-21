@@ -19289,7 +19289,7 @@ var _router = __webpack_require__(143);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _stringUtils = __webpack_require__(160);
+var _stringUtils = __webpack_require__(161);
 
 var _stringUtils2 = _interopRequireDefault(_stringUtils);
 
@@ -31171,6 +31171,7 @@ exports.default = new _vueRouter2.default({
         component: _ioNotFound2.default
     }, {
         path: '/home',
+        name: 'home',
         component: _ioHome2.default
     }, {
         path: '/simulation',
@@ -31940,7 +31941,7 @@ exports.default = {
                 var sum = 0;
 
                 alternative.forEach(function (alternativeConsequenceValue) {
-                    sum += alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]];
+                    sum += parseInt(alternativeConsequenceValue[Object.keys(alternativeConsequenceValue)[0]]);
                 });
 
                 averageObject = {
@@ -32060,8 +32061,8 @@ exports.default = {
          * alternatives array so we can display it.
          */
         getMaxiMin: function getMaxiMin() {
-            var matrix = this.getMaximumsMatrix();
-            var answer = this.getMin(matrix);
+            var matrix = this.getMinimumsMatrix();
+            var answer = this.getMax(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
             return answer;
         },
@@ -32073,8 +32074,8 @@ exports.default = {
          * alternatives array so we can display it.
          */
         getMiniMax: function getMiniMax() {
-            var matrix = this.getMinimumsMatrix();
-            var answer = this.getMax(matrix);
+            var matrix = this.getMaximumsMatrix();
+            var answer = this.getMin(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
             return answer;
         },
@@ -32344,7 +32345,41 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
+    _c("div", { staticClass: "io-shadow" }, [
+      _c("div", { staticClass: "container is-fluid" }, [
+        _c(
+          "nav",
+          {
+            staticClass: "navbar",
+            attrs: { role: "navigation", "aria-label": "main navigation" }
+          },
+          [
+            _c("div", { staticClass: "navbar-brand" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "navbar-item",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.$router.push("home")
+                    }
+                  }
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(
+                    "\n                            Ir a inicio\n                        "
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -32679,7 +32714,7 @@ var render = function() {
               _vm._v(" "),
               _c("hr"),
               _vm._v(" "),
-              _vm._m(1),
+              _vm._m(2),
               _vm._v(" "),
               _c("hr"),
               _vm._v(" "),
@@ -32791,7 +32826,7 @@ var render = function() {
                                   class: _vm.answer == index ? "isResult" : ""
                                 },
                                 [
-                                  _vm._m(2, true),
+                                  _vm._m(3, true),
                                   _vm._v(" "),
                                   _vm._l(alternativeArray, function(
                                     alternative,
@@ -32925,7 +32960,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(3)
+    _vm._m(4)
   ])
 }
 var staticRenderFns = [
@@ -32933,37 +32968,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "io-shadow" }, [
-      _c("div", { staticClass: "container is-fluid" }, [
-        _c(
-          "nav",
-          {
-            staticClass: "navbar",
-            attrs: { role: "navigation", "aria-label": "main navigation" }
-          },
-          [
-            _c("div", { staticClass: "navbar-brand" }, [
-              _c("a", { staticClass: "navbar-item", attrs: { href: "/" } }, [
-                _c("span", { staticClass: "icon is-medium" }, [
-                  _c("i", { staticClass: "fa fa-home" })
-                ]),
-                _vm._v(
-                  "\n                            Ir a inicio\n                        "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "navbar-menu" }, [
-              _c("div", { staticClass: "navbar-end" }, [
-                _c("a", { staticClass: "navbar-item" }, [
-                  _c("img", {
-                    attrs: { src: "/img/utn-logo-small.png", alt: "UTN" }
-                  })
-                ])
-              ])
-            ])
-          ]
-        )
+    return _c("span", { staticClass: "icon is-medium" }, [
+      _c("i", { staticClass: "fa fa-home" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "navbar-menu" }, [
+      _c("div", { staticClass: "navbar-end" }, [
+        _c("a", { staticClass: "navbar-item" }, [
+          _c("img", {
+            attrs: {
+              src: __webpack_require__(160),
+              alt: "UTN"
+            }
+          })
+        ])
       ])
     ])
   },
@@ -33033,6 +33055,12 @@ if (false) {
 
 /***/ }),
 /* 160 */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAcCAYAAADvANYcAAADzUlEQVR42tVWXUiTURh2f8xN56Zr6jY3mU5F3ZzmLzIjaS6ZImoom9mQLuwitBtB+kMyENOK0puB0kVXJQQrMIJAb4ryQrroykBRpBgRhKZp/mw9J/bJ6WPOfZsX9cHD9p33nPM+33nf87xvXNy//Gg0Gp1ardYTZGdn64qKihJou9FoFDN2gv7+fjltz8jIkABaes7AwACfE4m8vDxvUlLSKwKVSvXCYDDYabtWqy1m7AS9vb0XaCfJyclWuVz+hJoz7fP5EjiRqKqqmsdPgIDP5+9i08uBQODAiVKptDF2gu7u7sHZ2VkhY4+Pjz8vEAjWGTved7BewolETU3NTcqJPycn53lHR0dmJCTMZnOyQqG4z+Px9hi7yWR6AxI8TiQ6OztP0k5kMtkPbNSO/4KjSKSlpVUKhcJV2t7S0nKRc2KS+Op0unn6NKRS6ZfBwUFzOBKlpaVqsVj8icxnbCKRaBvj8qhuSGpqqg35sE07wxFvIb5XQaKVHne73SMg7oTD7/Q4sFtQUHAp6mva1NQkKykpuQsiG6yN/fSXEuTn529h3l9jCMkOEtqLPVQx6QU2z0xJSZnACbC/MCxAaDM9PX3aarVa8M6LWbiQaJAJw23E+jP7BELADwLfkD+erKwsM2eBCvdMTk6m4GgdcPAIQraA3302AYvF8hU58Rgndw45oz0Ov2+B9yGwlJiYuB7qRKCK2wjbMjAXYh3ZTxGx96Co7HLJgQhAhEv1f5EgD4rPGqR38zBAQXdChONnmDXrWHOCE4n29vYhp9M5TAO1Y7S+vt5bUVGxhKu7ziYBVVxpaGiYxtwH7LXAUGNjozSmLMVXGvE1V3BNX+J1O9SRIyF/IWlnMPcGSJqORR+CD6+wsLAcGz/FtVyLQCcImQ00Ma8rKysdeBfFzAANTTHyY4ZdQ44CJHuPFDJ0YPaYBAvdkxJFzBvMbNrJPgRrkR6Doi6GuFF+qO1Hh8ORGTWJ3NxcN9s5Kuiyx+M5FaqUo05koSN7Rzox2gbCw1HlR19fXwLkd4VFYK6urk4Trp9AHiSB/DPkxQERiUSy29rayv00bDbbGdoJst5XVlZ2mmnRwnVW6M5NqDMf6CSura29xplEdXX1Qzq2yPYJu92eGkmPOTU1JQGR63RY9Hr9At0oR/Sgn1yirtwOSnM3bT+q20YIXOi26R5kDyS4tfwul2sECnePoLm5+Q5iWk7b29rajIydYHx8/Cx9FXEjzFDPW4wd/0dXV1e5tfxdXV3x2PQPxsbGxHAqYDfCjD0IIdve09MjZuxkv8N8/QYioRQgPO88KwAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
