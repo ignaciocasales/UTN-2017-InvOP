@@ -19,7 +19,9 @@ export default {
 
             answer: '',
 
-            answerValue: ''
+            answerValue: '',
+
+            isMoreThanOneResultFlag: false
         }
     },
 
@@ -328,6 +330,70 @@ export default {
             return result;
         },
 
+        isMoreThanOneResult(matrix, answer) {
+            this.isMoreThanOneResultFlag = false;
+            let count = 0;
+            switch (this.criteria) {
+                case "optimist":
+                    count = 0;
+                    matrix.forEach((currentValue,index) => {
+                        if (matrix[answer][Object.keys(matrix[answer])[0]] === currentValue[Object.keys(currentValue)[0]]) {
+                            count++;
+                        }
+                    });
+                    if (count > 1) {
+                        this.isMoreThanOneResultFlag = true;
+                    }
+                    return;
+                case "pessimist":
+                    count = 0;
+                    matrix.forEach((currentValue,index) => {
+                        if (matrix[answer][Object.keys(matrix[answer])[0]] === currentValue[Object.keys(currentValue)[0]]) {
+                            count++;
+                        }
+                    });
+                    if (count > 1) {
+                        this.isMoreThanOneResultFlag = true;
+                    }
+                    return;
+                case "savage":
+                    count = 0;
+                    matrix.forEach((currentValue,index) => {
+                        if (matrix[answer] === currentValue) {
+                            count++;
+                        }
+                    });
+                    if (count > 1) {
+                        this.isMoreThanOneResultFlag = true;
+                    }
+                    return;
+                case "laplace":
+                    count = 0;
+                    matrix.forEach((currentValue,index) => {
+                        if (matrix[answer][Object.keys(matrix[answer])[0]] === currentValue[Object.keys(currentValue)[0]]) {
+                            count++;
+                        }
+                    });
+                    if (count > 1) {
+                        this.isMoreThanOneResultFlag = true;
+                    }
+                    return;
+                case "hurwicz":
+                    count = 0;
+                    matrix.forEach((currentValue,index) => {
+                        if (matrix[answer][Object.keys(matrix[answer])[0]] === currentValue[Object.keys(currentValue)[0]]) {
+                            count++;
+                        }
+                    });
+                    if (count > 1) {
+                        this.isMoreThanOneResultFlag = true;
+                    }
+                    return;
+                default:
+                    return;
+            }
+        },
+
         /**
          * Get the the maximum of the maximums.
          * Returns the index of the MaxiMax in the
@@ -337,6 +403,7 @@ export default {
             const matrix = this.getMaximumsMatrix();
             const answer = this.getMax(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -349,6 +416,7 @@ export default {
             const matrix = this.getMinimumsMatrix();
             const answer = this.getMin(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -361,6 +429,7 @@ export default {
             const matrix = this.getMinimumsMatrix();
             const answer = this.getMax(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -373,6 +442,7 @@ export default {
             const matrix = this.getMaximumsMatrix();
             const answer = this.getMin(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -392,6 +462,7 @@ export default {
                 }
             });
             this.answerValue = matrix[result];
+            this.isMoreThanOneResult(matrix, result);
             return result;
         },
 
@@ -411,6 +482,7 @@ export default {
                 }
             });
             this.answerValue = matrix[result];
+            this.isMoreThanOneResult(matrix, result);
             return result;
         },
 
@@ -423,6 +495,7 @@ export default {
             const matrix = this.getAveragesMatrix();
             const answer = this.getMax(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -435,6 +508,7 @@ export default {
             const matrix = this.getAveragesMatrix();
             const answer = this.getMin(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -446,6 +520,7 @@ export default {
             const matrix = this.getHurwiczMatrix();
             const answer = this.getMax(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -457,6 +532,7 @@ export default {
             const matrix = this.getHurwiczMatrix();
             const answer = this.getMin(matrix);
             this.answerValue = matrix[answer][Object.keys(matrix[answer])[0]];
+            this.isMoreThanOneResult(matrix, answer);
             return answer;
         },
 
@@ -540,29 +616,43 @@ export default {
             }
         },
 
+        getAnswerValue() {
+            if ((this.answerValue === "") || (this.answerValue === 'undefined') || (this.answerValue === null) || (isNaN(this.answerValue))) {
+                this.answerValue = 0;
+            }
+
+            return this.answerValue;
+        },
+
         /**
          * Calculate the result depending the
          * criteria.
          */
         resultCalc() {
+            if ((this.consequences.length <= 0) || (this.alternatives.length <= 0)) {
+                this.answer = 0;
+                return;
+            }
+
             switch (this.criteria) {
                 case "optimist":
                     this.answer = this.getOptimistCriteriaResult();
-                    break;
+                    return;
                 case "pessimist":
                     this.answer = this.getPessimistCriteriaResult();
-                    break;
+                    return;
                 case "savage":
                     this.answer = this.getSavageCriteriaResult();
-                    break;
+                    return;
                 case "laplace":
                     this.answer = this.getLaplaceCriteriaResult();
-                    break;
+                    return;
                 case "hurwicz":
                     this.answer = this.getHurwiczCriteriaResult();
-                    break;
+                    return;
                 default:
                     this.answer = this.getMaxiMax();
+                    return;
             }
         },
 
