@@ -4,7 +4,7 @@
             <div class="container is-fluid">
                 <nav class="navbar" role="navigation" aria-label="main navigation">
                     <div class="navbar-brand">
-                        <a class="navbar-item" href="/">
+                        <a class="navbar-item" @click.prevent="$router.push('home')">
                         <span class="icon is-medium">
                             <i class="fa fa-home"></i>
                         </span>
@@ -14,7 +14,7 @@
                     <div class="navbar-menu">
                         <div class="navbar-end">
                             <a class="navbar-item">
-                                <img src="/img/utn-logo-small.png" alt="UTN"/>
+                                <img src="~./../assets/img/utn-logo-small.png" alt="UTN"/>
                             </a>
                         </div>
                     </div>
